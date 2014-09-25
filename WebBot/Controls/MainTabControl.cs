@@ -13,20 +13,14 @@ using System.Threading;
 using WebBot.BetFunctions.Sites;
 using WebBot.BetFunctions.Data;
 using WebBot.BetFunctions;
+using WebBot.BetActions.Enums;
 
 namespace WebBot.Controls
 {
     public partial class MainTabControl : UserControl
     {
         private GeckoWebBrowser _browser;
-        //private BaseSite _site;
-
-        //public BaseSite BetSite { get { return _site; } }
-
-        public GeckoWebBrowser Browser
-        {
-            get { return _browser;  }
-        }
+        public GeckoWebBrowser Browser { get { return _browser; } }
 
         public MainTabControl()
         {
@@ -36,20 +30,10 @@ namespace WebBot.Controls
             {
                 Dock = DockStyle.Fill,
             };
-            
-            //_site = new RPCDice(_browser);
-            //_site = new NullSite();
-            //BetTasks tasks = new BetTasks((Main)this.Parent, _browser);
-            //Main.OnInitializeSite(new RPCDice(_browser));
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            //_browser.DocumentCompleted += _browser_DocumentCompleted;
-
-            //_browser.Navigate(_site.Url);
-            //BetSite.Connect();
-
             tabControl1.TabPages["tabPage1"].Controls.Add(_browser);
 
             tabControl1.DrawItem += tabControl1_DrawItem;
@@ -58,20 +42,55 @@ namespace WebBot.Controls
             dataGridView2.CellFormatting += dataGridView2_CellFormatting;
         }
 
-        void dataGridView2_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            // Change the color of the cells (and formatting of negative numbers)
-            e.CellStyle.BackColor = Color.LightPink;
-        }
-
         void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
         {
             Graphics g = e.Graphics;
-            //g.DrawString("x", e.Font, Brushes.Black, e.Bounds.Right - 15, e.Bounds.Top + 4);
             g.DrawString(this.tabControl1.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
             e.DrawFocusRectangle();
         }
 
+        private const string BET_COLUMN = "Bet";
+        private const string WAGERED_COLUMN = "Wagered";
+        private const string RESULT_COLUMN = "Result";
+        private const string REWARD_COLUMN = "Reward";
+        private const string TOTAL_PROFIT_COLUMN = "TotalProfit";
+        private const string REASON_COLUMN = "Reason";
+        
+        private void dataGridView2_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            DataGridView send = sender as DataGridView;
+
+            var Column = send.Columns[e.ColumnIndex];
+
+            //if (Column.Name == REWARD_COLUMN)
+            switch(Column.Name)
+            {
+                case TOTAL_PROFIT_COLUMN:
+                case REWARD_COLUMN:
+                    decimal test = (decimal)e.Value;
+                    if (test < 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                    else if (test > 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                    }
+                    break;
+                case RESULT_COLUMN:
+                    WinType type = (WinType)e.Value;
+                    if (type == WinType.Win)
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                    break;
+            }
+        }
+        
         public void BindStatisticsGrid(BetTasks betTask)
         {
             dataGridView2.AutoGenerateColumns = false;
@@ -82,7 +101,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Bet",
+                Name = BET_COLUMN,
                 HeaderText = "#",
                 DataPropertyName = "CurrentBetNum"
             };
@@ -91,7 +110,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Wagered",
+                Name = WAGERED_COLUMN,
                 HeaderText = "Wagered",
                 DataPropertyName = "BetAmount"
             };
@@ -100,7 +119,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Result",
+                Name = RESULT_COLUMN,
                 HeaderText = "Result",
                 DataPropertyName = "Result"
             };
@@ -109,7 +128,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Reward",
+                Name = REWARD_COLUMN,
                 HeaderText = "Reward",
                 DataPropertyName = "Profit"
             };
@@ -118,7 +137,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "TotalProfit",
+                Name = TOTAL_PROFIT_COLUMN,
                 HeaderText = "Total Profit",
                 DataPropertyName = "TotalProfit"
             };
@@ -127,7 +146,7 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                Name = "Reason",
+                Name = REASON_COLUMN,
                 HeaderText = "Message",
                 DataPropertyName = "Reason"
             };

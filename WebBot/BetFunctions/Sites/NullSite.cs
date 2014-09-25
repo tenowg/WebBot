@@ -46,19 +46,39 @@ namespace WebBot.BetFunctions.Sites
         }
         public override bool HasBalanceChanged() { return true; }
 
-        public override void Roll(bool high)
-        {
-        }
+        //public override void Roll(bool high)
+        //{
+        //}
 
         public override void Connect() 
         {
             Initialize();
         }
 
-        public override void Login()
+        public override void ClickHigh()
         {
-            _loggedIn = true;
+            
         }
+
+        public override void ClickLow()
+        {
+            
+        }
+
+        public override void SetPreviousBalance()
+        {
+            
+        }
+
+        public override void SetChance()
+        {
+            
+        }
+
+        //public override void Login()
+        //{
+        //    _loggedIn = true;
+        //}
 
 
         //public override void IncrementStats(WinType winType) { }

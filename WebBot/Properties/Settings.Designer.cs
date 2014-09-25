@@ -238,5 +238,29 @@ namespace WebBot.Properties {
                 this["PauseBet"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal CurrentChance {
+            get {
+                return ((decimal)(this["CurrentChance"]));
+            }
+            set {
+                this["CurrentChance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("49.5")]
+        public decimal BaseChance {
+            get {
+                return ((decimal)(this["BaseChance"]));
+            }
+            set {
+                this["BaseChance"] = value;
+            }
+        }
     }
 }

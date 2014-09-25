@@ -56,5 +56,11 @@
     <Setting Name="PauseBet" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="CurrentChance" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="BaseChance" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">49.5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

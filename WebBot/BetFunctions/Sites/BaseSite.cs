@@ -20,7 +20,7 @@ namespace WebBot.BetFunctions.Sites
 
         public WebBot.Properties.Settings Settings { get; set; }
         protected string _url = "";
-        
+
         public virtual decimal Balance { get { return 0; } }
         public virtual decimal PreviousBalance { get { return 0; } }
         public GeckoWebBrowser Browser { set { _browser = value; } }
@@ -36,8 +36,39 @@ namespace WebBot.BetFunctions.Sites
         }
 
         public virtual void SetElements() { }
-        public virtual void Initialize() { }
-        public virtual WinType IsWin() { return WinType.Unknown; }
+        public virtual void Initialize() 
+        {
+            SetElements();
+            SetBet(Settings.CurrentBetAmount);
+        }
+        
+        public virtual WinType IsWin()
+        {
+            //var settings = WebBot.Properties.Settings.Default;
+            if (HasBalanceChanged())
+            {
+                //decimal current = decimal.Parse(_currentBalanceValue.Substring(0, _currentBalanceValue.LastIndexOf(" ")));
+                //decimal previous;
+                if (_previousBalanceValue == "" || _previousBalanceValue == null)
+                {
+                    SetBet(Settings.MinimumBetAmount);
+                    Settings.CurrentChance = Settings.BaseChance;
+                    return WinType.Initial;
+                }
+
+                if (Balance < PreviousBalance)
+                {
+                    return WinType.Lose;
+                }
+                else
+                {
+                    return WinType.Win;
+                }
+            }
+
+            return WinType.Unknown;
+        }
+        
         public abstract bool HasBalanceChanged();
 
         public event EventHandler RequestStopped;
@@ -75,7 +106,34 @@ namespace WebBot.BetFunctions.Sites
             Settings.CurrentBetAmount = decimal.Round(bet, 8);
         }
 
-        public abstract void Roll(bool high);
+        public abstract void ClickHigh();
+        public abstract void ClickLow();
+        public abstract void SetPreviousBalance();
+        public abstract void SetChance();
+
+        public virtual void Roll(bool high)
+        {
+            if (HasBalanceChanged())
+            {
+                // Do The Roll
+                SetChance();
+                if (high)
+                {
+                    if (!Settings.PauseBet)
+                    {
+                        ClickHigh();
+                    }
+                }
+                else
+                {
+                    if (!Settings.PauseBet)
+                    {
+                        ClickLow();
+                    }
+                }
+                SetPreviousBalance();
+            }    
+        }
 
         public virtual void Connect()
         {
@@ -85,6 +143,7 @@ namespace WebBot.BetFunctions.Sites
 
         protected virtual void DocumentCompleted(object sender, GeckoDocumentCompletedEventArgs e)
         {
+            SetElements();
             _browser.DocumentCompleted -= DocumentCompleted;
         }
 
@@ -94,7 +153,7 @@ namespace WebBot.BetFunctions.Sites
         }
 
         public virtual bool CanLogin() { return false; }
-        public abstract void Login();
+        //public abstract void Login();
 
         public virtual void IncrementStats(WinType winType)
         {

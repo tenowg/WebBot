@@ -68,6 +68,8 @@ namespace WebBot
                     tasks.Site.RequestStopped += Stop_Click;
                     tasks.Site.OnBetStarting();
                     buttonStop.Enabled = true;
+                    buttonStartHigh.Enabled = false;
+                    buttonStartLow.Enabled = false;
                     tasks.IsRunning = true;
                 }));
 
@@ -107,6 +109,8 @@ namespace WebBot
             this.Invoke(new Action(() => {
                 tasks.Site.RequestStopped -= Stop_Click;
                 buttonStop.Enabled = false;
+                buttonStartHigh.Enabled = true;
+                buttonStartLow.Enabled = true;
                 tasks.IsRunning = false;
             }));
         }

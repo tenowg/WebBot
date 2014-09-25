@@ -26,7 +26,7 @@ namespace WebBot.BetFunctions.Sites
         void Roll(bool high);
         void Connect();
         bool CanLogin();
-        void Login();
+        //void Login();
         void IncrementStats(WinType winType);
     }
 }

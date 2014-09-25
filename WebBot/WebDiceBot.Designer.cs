@@ -29,6 +29,7 @@ namespace WebBot
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newStrategyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,9 +40,13 @@ namespace WebBot
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -55,10 +60,18 @@ namespace WebBot
             this.buttonStartHigh = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.currentProfitLabel = new System.Windows.Forms.Label();
+            this.totalProfitLabel = new System.Windows.Forms.Label();
             this.mainTabControl1 = new WebBot.Controls.MainTabControl();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -71,6 +84,7 @@ namespace WebBot
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -100,6 +114,7 @@ namespace WebBot
             this.newStrategyToolStripMenuItem.Name = "newStrategyToolStripMenuItem";
             this.newStrategyToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newStrategyToolStripMenuItem.Text = "New Strategy";
+            this.newStrategyToolStripMenuItem.Click += new System.EventHandler(this.newStrategyToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
             // 
@@ -143,45 +158,80 @@ namespace WebBot
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(322, 17);
+            this.toolStripStatusLabel1.Text = "Donate Bitcoin: 19MxpXAYG7XpikW7XDLDxGcifPzyy8FwWH";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tableLayoutPanel1.SetColumnSpan(this.panel1, 3);
-            this.panel1.Controls.Add(this.checkBox2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.totalProfitLabel);
+            this.panel1.Controls.Add(this.currentProfitLabel);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1149, 44);
             this.panel1.TabIndex = 0;
             // 
-            // checkBox2
+            // panel3
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = global::WebBot.Properties.Settings.Default.PauseBet;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::WebBot.Properties.Settings.Default, "PauseBet", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(869, 11);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBox2.Size = new System.Drawing.Size(87, 17);
-            this.checkBox2.TabIndex = 5;
-            this.checkBox2.Text = "Manual Click";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.numericUpDown2);
+            this.panel3.Location = new System.Drawing.Point(809, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(139, 34);
+            this.panel3.TabIndex = 8;
             // 
-            // label1
+            // label2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(962, 12);
-            this.label1.Name = "label1";
-            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Base Bet";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Base Chance";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::WebBot.Properties.Settings.Default, "BaseChance", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.numericUpDown2.DecimalPlaces = 1;
+            this.numericUpDown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown2.Location = new System.Drawing.Point(80, 7);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            131072});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(53, 20);
+            this.numericUpDown2.TabIndex = 6;
+            this.numericUpDown2.Value = global::WebBot.Properties.Settings.Default.BaseChance;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.numericUpDown1);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Location = new System.Drawing.Point(954, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(188, 34);
+            this.panel2.TabIndex = 7;
             // 
             // numericUpDown1
             // 
@@ -193,11 +243,35 @@ namespace WebBot
             0,
             0,
             327680});
-            this.numericUpDown1.Location = new System.Drawing.Point(1018, 10);
+            this.numericUpDown1.Location = new System.Drawing.Point(59, 6);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 0;
             this.numericUpDown1.Value = global::WebBot.Properties.Settings.Default.MinimumBetAmount;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Name = "label1";
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Base Bet";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = global::WebBot.Properties.Settings.Default.PauseBet;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::WebBot.Properties.Settings.Default, "PauseBet", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Location = new System.Drawing.Point(3, 9);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBox2.Size = new System.Drawing.Size(87, 17);
+            this.checkBox2.TabIndex = 5;
+            this.checkBox2.Text = "Manual Click";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
@@ -329,6 +403,7 @@ namespace WebBot
             // 
             // buttonStartLow
             // 
+            this.buttonStartLow.Enabled = false;
             this.buttonStartLow.Location = new System.Drawing.Point(3, 32);
             this.buttonStartLow.Name = "buttonStartLow";
             this.buttonStartLow.Size = new System.Drawing.Size(75, 23);
@@ -338,6 +413,7 @@ namespace WebBot
             // 
             // buttonStartHigh
             // 
+            this.buttonStartHigh.Enabled = false;
             this.buttonStartHigh.Location = new System.Drawing.Point(3, 3);
             this.buttonStartHigh.Name = "buttonStartHigh";
             this.buttonStartHigh.Size = new System.Drawing.Size(75, 23);
@@ -364,6 +440,51 @@ namespace WebBot
             this.propertyGrid1.Size = new System.Drawing.Size(308, 239);
             this.propertyGrid1.TabIndex = 0;
             // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.checkBox2);
+            this.panel4.Location = new System.Drawing.Point(707, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(96, 34);
+            this.panel4.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Current Profit:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Total Profit:";
+            // 
+            // currentProfitLabel
+            // 
+            this.currentProfitLabel.AutoSize = true;
+            this.currentProfitLabel.Location = new System.Drawing.Point(84, 3);
+            this.currentProfitLabel.Name = "currentProfitLabel";
+            this.currentProfitLabel.Size = new System.Drawing.Size(50, 13);
+            this.currentProfitLabel.TabIndex = 12;
+            this.currentProfitLabel.Text = "loading...";
+            // 
+            // totalProfitLabel
+            // 
+            this.totalProfitLabel.AutoSize = true;
+            this.totalProfitLabel.Location = new System.Drawing.Point(84, 24);
+            this.totalProfitLabel.Name = "totalProfitLabel";
+            this.totalProfitLabel.Size = new System.Drawing.Size(50, 13);
+            this.totalProfitLabel.TabIndex = 13;
+            this.totalProfitLabel.Text = "loading...";
+            // 
             // mainTabControl1
             // 
             this.mainTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -380,6 +501,7 @@ namespace WebBot
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "WebDiceBot";
@@ -390,6 +512,11 @@ namespace WebBot
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -404,6 +531,8 @@ namespace WebBot
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,6 +567,15 @@ namespace WebBot
         public FlowLayoutPanel flowLayoutPanel1;
         public Controls.MainTabControl mainTabControl1;
         private ToolStripMenuItem pRCDicehttpprcdiceeuToolStripMenuItem;
+        private Panel panel3;
+        private Label label2;
+        private NumericUpDown numericUpDown2;
+        private Panel panel2;
+        private Label totalProfitLabel;
+        private Label currentProfitLabel;
+        private Label label4;
+        private Label label3;
+        private Panel panel4;
     }
 }
 
