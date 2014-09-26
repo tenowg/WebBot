@@ -21,6 +21,8 @@ namespace WebBot.BetActions.Enums
         [EnumMember]
         LessThanOrEqualTo,
         [EnumMember]
-        Always
+        Always,
+        [EnumMember]
+        MultipleOf
     }
 }

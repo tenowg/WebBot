@@ -25,6 +25,7 @@ namespace WebBot.BetActions
         public const string PERCENT_OR_FIXED = "Percent or Fixed";
         public const string AMOUNT = "Amount";
         public const string PROFIT_TYPE = "Profit Type";
+        public const string CHANGE_AMOUNT = "Change Amount";
 
         [DataMember]
         [Description("Properties decide what happens once a Action is fired, they do not determine if the action is attempted like Firing Parameters do.")]
@@ -140,6 +141,12 @@ namespace WebBot.BetActions
                     break;
                 case ConditionalType.LessThanOrEqualTo:
                     if (checkCount > count)
+                    {
+                        return false;
+                    }
+                    break;
+                case ConditionalType.MultipleOf:
+                    if (checkCount % count != 0)
                     {
                         return false;
                     }

@@ -61,39 +61,6 @@ namespace WebBot.BetFunctions.Sites
             }
         }
 
-        //public override void Initialize()
-        //{
-        //    //var settings = WebBot.Properties.Settings.Default;
-        //    SetElements();
-        //    SetBet(Settings.CurrentBetAmount);
-        //}
-
-        //public override WinType IsWin()
-        //{
-        //    //var settings = WebBot.Properties.Settings.Default;
-        //    if (HasBalanceChanged())
-        //    {
-        //        //decimal current = decimal.Parse(_currentBalanceValue.Substring(0, _currentBalanceValue.LastIndexOf(" ")));
-        //        //decimal previous;
-        //        if (_previousBalanceValue == "" || _previousBalanceValue == null)
-        //        {
-        //            SetBet(Settings.MinimumBetAmount);
-        //            return WinType.Initial;
-        //        }
-                                    
-        //        if (Balance < PreviousBalance)
-        //        {
-        //            return WinType.Lose;
-        //        }
-        //        else
-        //        {
-        //            return WinType.Win;
-        //        }
-        //    }
-
-        //    return WinType.Unknown;
-        //}
-
         // Uses local buttons to check values... might change this behaviour
         public override bool HasBalanceChanged()
         {
@@ -114,30 +81,6 @@ namespace WebBot.BetFunctions.Sites
             base.SetBet(bet);
             if (BetValue != null) { BetValue.Value = Settings.CurrentBetAmount.ToString(); }
         }
-        //public override void Roll(bool high)
-        //{
-        //    //var settings = WebBot.Properties.Settings.Default;
-            
-        //    if (HasBalanceChanged())
-        //    {
-        //        // Do The Roll
-        //        if (high)
-        //        {
-        //            if (!Settings.PauseBet)
-        //            {
-        //                BetHigh.Click();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (!Settings.PauseBet)
-        //            {
-        //                BetLow.Click();
-        //            }
-        //        }
-        //        _previousBalanceValue = BalanceNode.InnerHtml;
-        //    }            
-        //}
 
         public override void ClickHigh()
         {
@@ -156,13 +99,8 @@ namespace WebBot.BetFunctions.Sites
 
         public override void SetChance()
         {
+            // Add checks for trying to set over max/min amounts
             Chance.Value = Settings.CurrentChance.ToString(); ;
         }
-
-        //protected override void DocumentCompleted(object sender, Gecko.Events.GeckoDocumentCompletedEventArgs e)
-        //{
-        //    SetElements();
-        //    base.DocumentCompleted(sender, e);
-        //}
     }
 }

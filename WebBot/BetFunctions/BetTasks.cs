@@ -1,4 +1,5 @@
 ﻿using Gecko;
+using Gecko.Events;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace WebBot.BetFunctions
         private WebBot.Properties.Settings settings;
         private Main _main;
         private GeckoWebBrowser _browser;
+        private bool _paused;
 
         public BetTasks(FlowLayoutPanel taskPanel)
         {
@@ -67,7 +69,7 @@ namespace WebBot.BetFunctions
 
         public void ProcessBet()
         {
-            if (Site == null)
+            if (Site == null || _paused)
             {
                 return;
             }
@@ -78,6 +80,20 @@ namespace WebBot.BetFunctions
                 if (_retries < WebBot.Properties.Settings.Default.MaxRetry)
                 {
                     _retries++;
+                    return;
+                }
+                else
+                {
+                    // Do Page Reload
+                    // Pause the BetTasks
+                    _paused = true;
+                    _browser.DocumentCompleted += _browser_DocumentCompleted;
+                    // Reload the page
+                    Site.Connect();
+                    // Wait for reload (Done)
+                    // Stop looking for reload (Done)
+                    // Unpause the bettings (Done)
+                    _retries = 0;
                     return;
                 }
             }
@@ -121,6 +137,12 @@ namespace WebBot.BetFunctions
             ProcessBetActions();
 
             Site.Roll(WebBot.Properties.Settings.Default.RollHigh);
+        }
+
+        void _browser_DocumentCompleted(object sender, GeckoDocumentCompletedEventArgs e)
+        {
+            _browser.DocumentCompleted -= _browser_DocumentCompleted;
+            _paused = false;
         }
 
         private void ProcessBetActions()

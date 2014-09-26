@@ -86,6 +86,9 @@ namespace WebBot.Controls
                 case ActionType.StopAction:
                     actionType = new StopAction();
                     break;
+                case ActionType.ChangeChance:
+                    actionType = new ChangeChanceAction();
+                    break;
                 default:
                     actionType = null;
                     break;

@@ -11,6 +11,7 @@ namespace WebBot.BetActions.Enums
         SelectActionType,
         TestAction,
         ChangeBet,
-        StopAction
+        StopAction,
+        ChangeChance
     }
 }

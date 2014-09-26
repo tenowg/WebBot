@@ -51,10 +51,5 @@ namespace WebBot.BetActions.Actions
             }
             
         }
-
-        public override bool CanFire()
-        {
-            return base.CanFire();
-        }
     }
 }

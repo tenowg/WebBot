@@ -185,6 +185,7 @@ namespace WebBot
                     typeof(TestAction),
                     typeof(StopAction),
                     typeof(ChangeBetAction),
+                    typeof(ChangeChanceAction),
                     typeof(DictionaryPropertyObject),
                     typeof(ConditionalType),
                     typeof(ActionValue),

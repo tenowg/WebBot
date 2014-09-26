@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="BetActions\Actions\ChangeBetAction.cs" />
     <Compile Include="BetActions\Actions\StopAction.cs" />
+    <Compile Include="BetActions\Actions\ChangeChanceAction.cs" />
     <Compile Include="BetActions\Enums\ConditionalType.cs" />
     <Compile Include="BetActions\Enums\PercentOrFixed.cs" />
     <Compile Include="BetActions\Enums\ProfitType.cs" />
@@ -226,8 +227,6 @@
     <Content Include="Strategies\Basic Martingale.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="icudt.dll" />
-    <Content Include="libcef.dll" />
     <None Include="Resources\logo2.png" />
     <Content Include="zulrunner\AccessibleMarshal.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

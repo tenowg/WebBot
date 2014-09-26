@@ -1,5 +1,7 @@
-﻿using Gecko.DOM;
+﻿using Gecko;
+using Gecko.DOM;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -17,7 +19,8 @@ namespace WebBot
     partial class Main
     {
         BackgroundWorker worker = new BackgroundWorker();
-        //private BaseSite _site;
+        BackgroundWorker watchWorker = new BackgroundWorker();
+
         BetTasks tasks;
 
         public delegate WinType isWin();
@@ -25,23 +28,20 @@ namespace WebBot
         public void initBackground()
         {
             worker.WorkerSupportsCancellation = true;
+            watchWorker.WorkerSupportsCancellation = true;
 
             worker.RunWorkerCompleted += WorkerCompleted;
-            worker.ProgressChanged += ProgressChanged;
             worker.DoWork += DoWork;
-            //worker.Disposed += Disposed;
+
+            watchWorker.RunWorkerCompleted += watchWorker_RunWorkerCompleted;
+            watchWorker.DoWork += watchWorker_DoWork;
 
             buttonStartHigh.Click += StartHigh_Click;
             buttonStartLow.Click += StartLow_Click;
             buttonStop.Click += Stop_Click;
 
-            //_site = mainTabControl1.BetSite;
-
-            //tasks = new BetTasks(_site, flowLayoutPanel1);
             tasks = new BetTasks(this, mainTabControl1.Browser);
             mainTabControl1.BindStatisticsGrid(tasks);
-
-            //OnInitializeSite(new RPCDice(mainTabControl1.Browser));
         }
 
         #region Create Site Events
@@ -56,6 +56,8 @@ namespace WebBot
         }
 
         #endregion
+
+        #region Main Bet Loop
 
         void DoWork(object sender, DoWorkEventArgs e)
         {
@@ -115,10 +117,10 @@ namespace WebBot
             }));
         }
 
-        void ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            //this.tbProgress.Text = (e.ProgressPercentage.ToString() + "%");
-        }
+        //void ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    //this.tbProgress.Text = (e.ProgressPercentage.ToString() + "%");
+        //}
 
         void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -162,5 +164,61 @@ namespace WebBot
                 worker.CancelAsync();
             }
         }
+        #endregion
+
+        #region Watch HTML Item loop
+        // events to throw when items change
+        public static event EventHandler ValueChanged;
+
+        private void OnValueChanged(GeckoHtmlElement element)
+        {
+            if (ValueChanged != null) ValueChanged(element, EventArgs.Empty);
+        }
+
+        public static void AddWatchElement(string name, GeckoHtmlElement element)
+        {
+            elements.TryAdd(name, element);
+        }
+
+        private static ConcurrentDictionary<string, GeckoHtmlElement> elements = new ConcurrentDictionary<string, GeckoHtmlElement>();
+        private static ConcurrentDictionary<string, string> elementValues = new ConcurrentDictionary<string, string>();
+        
+        void watchWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker sendWorker = sender as BackgroundWorker;
+
+            while(!sendWorker.CancellationPending)
+            {
+                foreach (var element in elements)
+                {
+                    this.Invoke(new Action(() =>
+                            {
+                                string el;
+                                if (elementValues.TryGetValue(element.Key, out el))
+                                {
+                                    if (elements[element.Key].InnerHtml != el)
+                                    {
+                                        elementValues.TryUpdate(element.Key, el, elementValues[element.Key]);
+
+                                        OnValueChanged(element.Value);
+                                    }
+                                }
+                                else
+                                {
+                                    elementValues.TryAdd(element.Key, element.Value.InnerHtml);
+                                }
+                            }));
+                }
+
+                Thread.Sleep(50);
+            }
+        }
+
+        void watchWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            
+        }
+
+        #endregion
     }
 }
