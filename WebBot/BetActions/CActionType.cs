@@ -154,6 +154,11 @@ namespace WebBot.BetActions
             }
             return true;
         }
+
+        public virtual string GetDescription()
+        {
+            return "No Description Set";
+        }
     }
 
     internal class CActionTypeConverter : ExpandableObjectConverter

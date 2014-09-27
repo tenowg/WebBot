@@ -132,17 +132,41 @@ namespace WebBot
         }
 
 
-        void AddBetAction()
+        void AddBetAction(BetAction action)
         {
-            BetAction action = new BetAction();
+            if (action == null)
+            {
+                action = new BetAction();
+            }
             flowLayoutPanel1.Controls.Add(action);
             action.Click += action_DoubleClick;
+            action.descriptionLabel.Click += action_Label_Click;
+            action.label1.Click += action_Label_Click;
+            action.label2.Click += action_Label_Click;
+            action.label3.Click += action_Label_Click;
+        }
+
+        void action_Label_Click(object sender, EventArgs e)
+        {
+            Label label = sender as Label;
+
+            if (label != null)
+            {
+                BetAction action = label.Parent.Parent as BetAction;
+                if (action != null)
+                {
+                    action_DoubleClick(action, e);
+                }
+            }
         }
 
         void action_DoubleClick(object sender, EventArgs e)
         {
             BetAction action = sender as BetAction;
-            propertyGrid1.SelectedObject = action.BetActionProperties;
+            if (action != null)
+            {
+                propertyGrid1.SelectedObject = action.BetActionProperties;
+            }
         }
 
         void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -175,7 +199,7 @@ namespace WebBot
 
         private void button4_Click(object sender, EventArgs e)
         {
-            AddBetAction();
+            AddBetAction(null);
         }
 
         private Type[] KnownTypes()
@@ -244,8 +268,9 @@ namespace WebBot
                     foreach (var action in actionList)
                     {
                         BetAction savedAction = new BetAction(action);
-                        flowLayoutPanel1.Controls.Add(savedAction);
-                        savedAction.Click += action_DoubleClick;
+                        AddBetAction(savedAction);
+                        //flowLayoutPanel1.Controls.Add(savedAction);
+                        //savedAction.Click += action_DoubleClick;
                     }
                 }
             }

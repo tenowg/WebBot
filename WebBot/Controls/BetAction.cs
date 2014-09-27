@@ -59,6 +59,8 @@ namespace WebBot.Controls
                 {
                     label2.Text = String.Format("{0}", type.ToString());
                 }
+
+                descriptionLabel.Text = BetActionProperties.Action.GetDescription();
             }
 
             if (BetActionProperties.Disabled)
