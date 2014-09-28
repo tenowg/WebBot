@@ -30,5 +30,10 @@ namespace WebBot.BetActions.Actions
         {
             return base.CanFire();
         }
+
+        public override string GetDescription()
+        {
+            return "This is just a Test Action... doesn't do anything...";
+        }
     }
 }

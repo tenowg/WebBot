@@ -65,6 +65,31 @@ namespace WebBot.BetActions.Actions
             site.OnRequestStopped();
         }
 
+        public override string GetDescription()
+        {
+            ProfitType type;
+            Properties.GetProperty(PROFIT_TYPE, out type);
+
+            decimal amount;
+            Properties.GetProperty(AMOUNT, out amount);
+
+            // Always (Will Always stop betting when executed)
+            // EqualTo (Will stop the betting if profit/loss is {0} {1})
+            // Others (Will stop the betting if there is a {0} of {1})
+            switch (type)
+            {
+                case ProfitType.Always:
+                    return "Will Always stop betting when executed";
+                case ProfitType.EqualTo:
+                    return string.Format("Will stop the betting if profit/loss is {0} {1}", type, amount);
+                case ProfitType.Loss:
+                case ProfitType.Profit:
+                    return string.Format("Will stop the betting if there is a {0} of atleast {1}", type, amount);
+            }
+
+            return base.GetDescription();
+        }
+
         public override bool CanFire()
         {
             return base.CanFire();
