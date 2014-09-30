@@ -14,7 +14,7 @@ namespace WebBot.BetActions.Interfaces
 
         string GetName();
         void Execute(BaseSite site);
-        bool CanFire();
+        bool CanFire(BaseSite site);
         string GetDescription();
     }
 }

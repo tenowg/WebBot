@@ -39,6 +39,13 @@ namespace WebBot.BetFunctions
             settings = WebBot.Properties.Settings.Default;
         }
 
+        public BetTasks(Main main, FlowLayoutPanel taskPanel)
+            : this(taskPanel)
+        {
+            _main = main;
+            _browser = null;
+        }
+
         public BetTasks(Main main, GeckoWebBrowser browser) : this(main.flowLayoutPanel1)
         {
             _main = main;
@@ -61,8 +68,6 @@ namespace WebBot.BetFunctions
 
             Site = e.site;
             Site.OnReset();
-            //Site.BetStarting += delegate { _running = true; };
-            //Site.RequestStopped += delegate { _running = false; };
 
             Site.Connect();
         }
@@ -106,7 +111,7 @@ namespace WebBot.BetFunctions
                 case WinType.Lose:
                     break;
                 case WinType.Initial:
-                    Site.SetBet(settings.CurrentBetAmount);
+                    Site.SetBet(Site.CurrentBet);
                     break;
                 case WinType.Unknown:
                     // Show an error of sometype (this shouldnever happen)
@@ -117,17 +122,18 @@ namespace WebBot.BetFunctions
 
             if (type != WinType.Initial)
             {
-                settings.LastResult = type.ToString();
+                Site.LastResult = type; 
+                //settings.LastResult = type.ToString();
                 var profit = Site.Balance - Site.PreviousBalance;
-                settings.CurrentProfit += profit;
+                Site.CurrentProfit += profit;
                 // At this point we should be ready to record data...
                 BetData data = new BetData()
                     {
-                        CurrentBetNum = settings.CurrentBets,
-                        BetAmount = settings.CurrentBetAmount,
+                        CurrentBetNum = Site.CurrentBets,
+                        BetAmount = Site.CurrentBet,
                         Result = type,
                         Profit = profit, // TODO make this the currrent bets profit...
-                        TotalProfit = settings.CurrentProfit
+                        TotalProfit = Site.CurrentProfit
                     };
 
                 Enqueue(data);
@@ -136,6 +142,7 @@ namespace WebBot.BetFunctions
             Site.IncrementStats(type);
             ProcessBetActions();
 
+            // TODO fix this to site
             Site.Roll(WebBot.Properties.Settings.Default.RollHigh);
         }
 
@@ -149,7 +156,7 @@ namespace WebBot.BetFunctions
         {
             IEnumerable<BetAction> actions = _taskPanel.Controls.Cast<BetAction>()
                 .Where(x => x.BetActionProperties.Action != null)
-                .Where(x => x.BetActionProperties.Action.CanFire() == true)
+                .Where(x => x.BetActionProperties.Action.CanFire((BaseSite)Site) == true)
                 .Where(x => x.BetActionProperties.Disabled == false)
                 .OrderBy(x => x.BetActionProperties.Priority);
 

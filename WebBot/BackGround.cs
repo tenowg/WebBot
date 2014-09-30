@@ -20,6 +20,7 @@ namespace WebBot
     {
         BackgroundWorker worker = new BackgroundWorker();
         BackgroundWorker watchWorker = new BackgroundWorker();
+        BackgroundWorker bustWorker = new BackgroundWorker();
 
         BetTasks tasks;
 
@@ -29,6 +30,7 @@ namespace WebBot
         {
             worker.WorkerSupportsCancellation = true;
             watchWorker.WorkerSupportsCancellation = true;
+            bustWorker.WorkerSupportsCancellation = true;
 
             worker.RunWorkerCompleted += WorkerCompleted;
             worker.DoWork += DoWork;
@@ -36,12 +38,18 @@ namespace WebBot
             watchWorker.RunWorkerCompleted += watchWorker_RunWorkerCompleted;
             watchWorker.DoWork += watchWorker_DoWork;
 
+            bustTasks = new BetTasks(this, flowLayoutPanel1);
+            bustWorker.DoWork += Bust_DoWork;
+
             buttonStartHigh.Click += StartHigh_Click;
             buttonStartLow.Click += StartLow_Click;
             buttonStop.Click += Stop_Click;
 
+            mainTabControl1.buttonBust.Click += StartBust_Click;
+
             tasks = new BetTasks(this, mainTabControl1.Browser);
             mainTabControl1.BindStatisticsGrid(tasks);
+            mainTabControl1.BindBustCheckGrid(bustTasks);
         }
 
         #region Create Site Events
@@ -217,6 +225,45 @@ namespace WebBot
         void watchWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             
+        }
+
+        #endregion
+
+        #region BustCheckWorker Loop
+        private NullSite nullSite = new NullSite();
+        private BetTasks bustTasks;
+        
+        void Bust_DoWork(object sender, DoWorkEventArgs e)
+        {
+            nullSite.SetBalance(1.0m);
+            int overCount = 0;
+            // While loop, till balance is -(+count roll)
+            while (nullSite.Balance > 0 || overCount < 10)
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (nullSite.Balance <= 0)
+                    {
+                        overCount++;
+                    }
+
+                
+                    bustTasks.ProcessBet();
+                    nullSite.SetBalance(nullSite.Balance - .2m);
+                }));
+
+                Thread.Sleep(50);
+            }
+        }
+
+        void StartBust_Click(object sender, EventArgs e)
+        {
+            
+            if (!bustWorker.IsBusy)
+            {
+                bustTasks.Site = nullSite;
+                bustWorker.RunWorkerAsync();
+            }
         }
 
         #endregion

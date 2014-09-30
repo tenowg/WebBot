@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebBot.Data
+namespace WebBot.BetFunctions.Data
 {
     public class BustCheck
     {

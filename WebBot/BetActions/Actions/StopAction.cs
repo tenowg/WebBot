@@ -89,10 +89,5 @@ namespace WebBot.BetActions.Actions
 
             return base.GetDescription();
         }
-
-        public override bool CanFire()
-        {
-            return base.CanFire();
-        }
     }
 }

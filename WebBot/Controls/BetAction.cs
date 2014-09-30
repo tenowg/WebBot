@@ -18,11 +18,14 @@ namespace WebBot.Controls
     [DataContract]
     public partial class BetAction : UserControl, IBetAction
     {
+        ContextMenuStrip menu = new ContextMenuStrip();
         public BetAction()
         {
             InitializeComponent();
             BetActionProperties = new BetActionProperties(this);
             FormatActionMessage();
+
+            AddMenu();
         }
 
         public BetAction(BetActionProperties properties)
@@ -31,6 +34,16 @@ namespace WebBot.Controls
             BetActionProperties.BetAction = this;
             InitializeComponent();
             FormatActionMessage();
+
+            AddMenu();
+        }
+
+        void AddMenu()
+        {
+            menu.Items.Add("Edit");
+            menu.Items.Add("Delete");
+
+            this.ContextMenuStrip = menu;
         }
 
         public BetActionProperties BetActionProperties { get; set; }

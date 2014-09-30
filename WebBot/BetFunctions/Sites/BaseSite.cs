@@ -28,6 +28,20 @@ namespace WebBot.BetFunctions.Sites
         public virtual string Url { get { return _url; } set { _url = value; } }
         public bool SiteLoaded { get { return _siteLoaded; } }
 
+        public virtual decimal CurrentBet { get { return Settings.CurrentBetAmount; } set { Settings.CurrentBetAmount = value; } }
+        public virtual int CurrentBets { get { return Settings.CurrentBets; } set { Settings.CurrentBets = value; } }
+        public virtual long AllTimeBets { get { return Settings.AllTimeBets; } set { Settings.AllTimeBets = value; } }
+        public virtual long TotalBets { get { return Settings.TotalBets; } set { Settings.TotalBets = value; } }
+        public virtual int CurrentStreak { get { return Settings.CurrentStreak; } set { Settings.CurrentStreak = value; } }
+        public virtual decimal CurrentProfit { get { return Settings.CurrentProfit; } set { Settings.CurrentProfit = value; } }
+        public virtual decimal BaseBet { get { return Settings.MinimumBetAmount; } }
+        public virtual WinType LastResult { get { return (WinType)Enum.Parse(typeof(WinType), Settings.LastResult); } set { Settings.LastResult = value.ToString(); } }
+        public virtual long Loses { get { return Settings.Loses; } set { Settings.Loses = value; } }
+        public virtual long AllTimeLoses { get { return Settings.AllTimeLoses; } set { Settings.AllTimeLoses = value; } }
+        public virtual long Wins { get { return Settings.Wins; } set { Settings.Wins = value; } }
+        public virtual long AllTimeWins { get { return Settings.AllTimeWins; } set { Settings.AllTimeWins = value; } }
+        public virtual bool PauseBet { get { return Settings.PauseBet; } set { Settings.PauseBet = value; } }
+
         public BaseSite(GeckoWebBrowser browser)
         {
             Settings = WebBot.Properties.Settings.Default;
@@ -35,20 +49,18 @@ namespace WebBot.BetFunctions.Sites
             BetStarting += BettingStart;
         }
 
-        public virtual void SetElements() { }
+        public abstract void SetElements();
         public virtual void Initialize() 
         {
             SetElements();
-            SetBet(Settings.CurrentBetAmount);
+            SetBet(CurrentBet);
         }
         
+        // TODO Change these variables too for completeness
         public virtual WinType IsWin()
         {
-            //var settings = WebBot.Properties.Settings.Default;
             if (HasBalanceChanged())
             {
-                //decimal current = decimal.Parse(_currentBalanceValue.Substring(0, _currentBalanceValue.LastIndexOf(" ")));
-                //decimal previous;
                 if (_previousBalanceValue == "" || _previousBalanceValue == null)
                 {
                     SetBet(Settings.MinimumBetAmount);
@@ -72,30 +84,32 @@ namespace WebBot.BetFunctions.Sites
         public abstract bool HasBalanceChanged();
 
         public event EventHandler RequestStopped;
-
         public void OnRequestStopped()
         {
             if (RequestStopped != null) RequestStopped(this, EventArgs.Empty);
         }
 
         public event EventHandler BetStarting;
-
         public void OnBetStarting()
         {
             if (BetStarting != null) BetStarting(this, EventArgs.Empty);
         }
 
         public event EventHandler Reset;
-
-        public void OnReset()
+        public virtual void OnReset()
         {
             //var settings = WebBot.Properties.Settings.Default;
-            SetBet(Settings.MinimumBetAmount);
-            Settings.CurrentBets = 0;
-            Settings.CurrentProfit = 0m;
-            Settings.CurrentStreak = 0;
-            Settings.Loses = 0;
-            Settings.Wins = 0;
+            SetBet(BaseBet);
+            //Settings.CurrentBets = 0;
+            CurrentBets = 0;
+            //Settings.CurrentProfit = 0m;
+            CurrentProfit = 0m;
+            //Settings.CurrentStreak = 0;
+            CurrentStreak = 0;
+            //Settings.Loses = 0;
+            Loses = 0;
+            //Settings.Wins = 0;
+            Wins = 0;
             _previousBalanceValue = null;
             if (Reset != null) Reset(this, EventArgs.Empty);
         }
@@ -103,7 +117,8 @@ namespace WebBot.BetFunctions.Sites
         public virtual void SetBet(decimal bet)
         {
             //var settings = WebBot.Properties.Settings.Default;
-            Settings.CurrentBetAmount = decimal.Round(bet, 8);
+            //Settings.CurrentBetAmount = decimal.Round(bet, 8);
+            CurrentBet = decimal.Round(bet, 8);
         }
 
         public abstract void ClickHigh();
@@ -119,14 +134,14 @@ namespace WebBot.BetFunctions.Sites
                 SetChance();
                 if (high)
                 {
-                    if (!Settings.PauseBet)
+                    if (!PauseBet)
                     {
                         ClickHigh();
                     }
                 }
                 else
                 {
-                    if (!Settings.PauseBet)
+                    if (!PauseBet)
                     {
                         ClickLow();
                     }
@@ -157,39 +172,40 @@ namespace WebBot.BetFunctions.Sites
 
         public virtual void IncrementStats(WinType winType)
         {
-            var settings = WebBot.Properties.Settings.Default;
+            //var settings = WebBot.Properties.Settings.Default;
 
             switch (winType)
             {
                 case WinType.Win:
-                    settings.Wins++;
-                    settings.AllTimeWins++;
+                    //Settings.Wins++;
+                    Wins++;
+                    AllTimeWins++;
 
-                    if (settings.CurrentStreak < 0)
+                    if (CurrentStreak < 0)
                     {
-                        settings.CurrentStreak = 0;
+                        CurrentStreak = 0;
                     }
 
-                    settings.CurrentStreak++;
+                    CurrentStreak++;
                     break;
                 case WinType.Lose:
-                    settings.Loses++;
-                    settings.AllTimeLoses++;
+                    Loses++;
+                    AllTimeLoses++;
 
-                    if (settings.CurrentStreak > 0)
+                    if (CurrentStreak > 0)
                     {
-                        settings.CurrentStreak = 0;
+                        CurrentStreak = 0;
                     }
 
-                    settings.CurrentStreak--;
+                    CurrentStreak--;
                     break;
             }
 
-            settings.AllTimeBets++;
-            settings.CurrentBets++;
-            settings.TotalBets++;
+            AllTimeBets++;
+            CurrentBets++;
+            TotalBets++;
 
-            settings.LastResult = winType.ToString();
+            LastResult = winType;
         }
     }
 }

@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gecko;
-using WebBot.Data;
 using System.Threading;
 using WebBot.BetFunctions.Sites;
 using WebBot.BetFunctions.Data;
@@ -38,7 +37,7 @@ namespace WebBot.Controls
 
             tabControl1.DrawItem += tabControl1_DrawItem;
 
-            BindBustCheckGrid();
+            //BindBustCheckGrid();
             dataGridView2.CellFormatting += dataGridView2_CellFormatting;
         }
 
@@ -55,7 +54,8 @@ namespace WebBot.Controls
         private const string REWARD_COLUMN = "Reward";
         private const string TOTAL_PROFIT_COLUMN = "TotalProfit";
         private const string REASON_COLUMN = "Reason";
-        
+
+        #region Statistics grid view
         private void dataGridView2_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             DataGridView send = sender as DataGridView;
@@ -181,21 +181,23 @@ namespace WebBot.Controls
                 }
             }
         }
+        #endregion
 
-        void BindBustCheckGrid()
+        #region Bust Check Code
+        public void BindBustCheckGrid(BetTasks betTask)
         {
             dataGridView1.AutoGenerateColumns = false;
 
             // create the columns programatically
             DataGridViewCell cell = new DataGridViewTextBoxCell();
             DataGridViewTextBoxColumn colBet = new DataGridViewTextBoxColumn()
-                {
-                    CellTemplate = cell,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                    Name = "Bet",
-                    HeaderText = "Bet Value",
-                    DataPropertyName = "Bet"
-                };
+            {
+                CellTemplate = cell,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                Name = BET_COLUMN,
+                HeaderText = "#",
+                DataPropertyName = "CurrentBetNum"
+            };
 
             dataGridView1.Columns.Add(colBet);
 
@@ -203,9 +205,9 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Profit",
-                HeaderText = "Profit",
-                DataPropertyName = "Profit"
+                Name = WAGERED_COLUMN,
+                HeaderText = "Wagered",
+                DataPropertyName = "BetAmount"
             };
 
             dataGridView1.Columns.Add(colProfit);
@@ -214,31 +216,53 @@ namespace WebBot.Controls
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = "Balance",
-                HeaderText = "Balance",
-                DataPropertyName = "Balance"
+                Name = REWARD_COLUMN,
+                HeaderText = "Reward",
+                DataPropertyName = "Profit"
             };
 
             dataGridView1.Columns.Add(colBalance);
 
-            DataGridViewTextBoxColumn colReason = new DataGridViewTextBoxColumn()
-            {
-                CellTemplate = cell,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                Name = "Reason",
-                HeaderText = "Reason",
-                DataPropertyName = "Reason"
-            };
+            //DataGridViewTextBoxColumn colReason = new DataGridViewTextBoxColumn()
+            //{
+            //    CellTemplate = cell,
+            //    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+            //    Name = "Reason",
+            //    HeaderText = "Reason",
+            //    DataPropertyName = "Reason"
+            //};
 
-            dataGridView1.Columns.Add(colReason);
+            //dataGridView1.Columns.Add(colReason);
 
-            var betList = new List<BustCheck>();
+            betTask.QueueChanged += bustTask_QueueChanged;
 
-            betList.Add(new BustCheck(0.123f, "first", 0.10000001f, 0.01f));
-            betList.Add(new BustCheck(0.5323f, "second", 0.10000001f, 0.01f));
-
-            var betsList = new BindingList<BustCheck>(betList);
-            dataGridView1.DataSource = betsList;
+            List<BetData> tasks = betTask.BetData.ToList();
+            tasks.Reverse();
+            dataGridView1.DataSource = tasks;
         }
+
+        void bustTask_QueueChanged(object sender, EventArgs e)
+        {
+            BetTasks betTask = sender as BetTasks;
+
+            if (betTask != null)
+            {
+                int index = dataGridView1.FirstDisplayedScrollingRowIndex;
+                List<BetData> tasks = betTask.BetData.ToList();
+                tasks.Reverse();
+                dataGridView1.DataSource = tasks;
+                if (index >= 0)
+                {
+                    dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                }
+            }
+        }
+        #endregion
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            numericUpDown2.Enabled = radioButton2.Checked;
+        }
+
     }
 }

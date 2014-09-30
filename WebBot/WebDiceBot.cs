@@ -139,7 +139,7 @@ namespace WebBot
                 action = new BetAction();
             }
             flowLayoutPanel1.Controls.Add(action);
-            action.Click += action_DoubleClick;
+            //action.Click += action_DoubleClick;
             action.descriptionLabel.Click += action_Label_Click;
             action.label1.Click += action_Label_Click;
             action.label2.Click += action_Label_Click;

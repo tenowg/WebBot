@@ -67,9 +67,9 @@ namespace WebBot.BetActions
         {
         }
 
-        public virtual bool CanFire()
+        public virtual bool CanFire(BaseSite site)
         {
-            WinType type = (WinType)Enum.Parse(typeof(WinType), _settings.LastResult);
+            WinType type = site.LastResult;
 
             ActionValue actionType;
             FiringParameters.GetProperty(ROLL_RESULT, out actionType);
@@ -78,7 +78,7 @@ namespace WebBot.BetActions
 
             if (actionType == ActionValue.Bet)
             {
-                checkCount = Math.Abs(_settings.CurrentBets);
+                checkCount = Math.Abs(site.CurrentBets);
             }
             else
             {
@@ -90,7 +90,7 @@ namespace WebBot.BetActions
                         {
                             return false;
                         }
-                        checkCount = Math.Abs(_settings.CurrentStreak);
+                        checkCount = Math.Abs(site.CurrentStreak);
                         break;
                     case WinType.Lose:
                         // It was a Loss...
@@ -98,7 +98,7 @@ namespace WebBot.BetActions
                         {
                             return false;
                         }
-                        checkCount = Math.Abs(_settings.CurrentStreak);
+                        checkCount = Math.Abs(site.CurrentStreak);
                         break;
                     default:
                         return false;

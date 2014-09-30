@@ -36,17 +36,17 @@ namespace WebBot.BetActions.Actions
             switch(type)
             {
                 case PercentOrFixed.Fixed:
-                    site.SetBet(_settings.CurrentBetAmount + amount);
+                    site.SetBet(site.CurrentBet + amount);
                     break;
                 case PercentOrFixed.Percent:
                     decimal percent = amount / 100;
-                    site.SetBet(_settings.CurrentBetAmount * percent);
+                    site.SetBet(site.CurrentBet * percent);
                     break;
                 case PercentOrFixed.Reset:
-                    site.SetBet(_settings.MinimumBetAmount);
+                    site.SetBet(site.BaseBet);
                     break;
                 case PercentOrFixed.Multiply:
-                    site.SetBet(_settings.CurrentBetAmount * amount);
+                    site.SetBet(site.CurrentBet * amount);
                     break;
             }
             

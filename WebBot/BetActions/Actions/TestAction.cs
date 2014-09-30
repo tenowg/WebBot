@@ -26,11 +26,6 @@ namespace WebBot.BetActions.Actions
             Console.WriteLine("Test Firing");
         }
 
-        public override bool CanFire()
-        {
-            return base.CanFire();
-        }
-
         public override string GetDescription()
         {
             return "This is just a Test Action... doesn't do anything...";
