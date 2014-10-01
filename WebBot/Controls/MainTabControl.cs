@@ -39,6 +39,7 @@ namespace WebBot.Controls
 
             //BindBustCheckGrid();
             dataGridView2.CellFormatting += dataGridView2_CellFormatting;
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
         void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
@@ -49,11 +50,15 @@ namespace WebBot.Controls
         }
 
         private const string BET_COLUMN = "Bet";
+        private const string BALANCE = "Balance";
         private const string WAGERED_COLUMN = "Wagered";
         private const string RESULT_COLUMN = "Result";
         private const string REWARD_COLUMN = "Reward";
         private const string TOTAL_PROFIT_COLUMN = "TotalProfit";
         private const string REASON_COLUMN = "Reason";
+        private const string POSSIBLE_PROFIT = "PossibleProfit";
+        private const string TOTAL_POSSIBLE_PROFIT = "TotalPossibleProfit";
+        private const string TOTAL_WAGERED = "TotalWagered";
 
         #region Statistics grid view
         private void dataGridView2_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -201,7 +206,7 @@ namespace WebBot.Controls
 
             dataGridView1.Columns.Add(colBet);
 
-            DataGridViewTextBoxColumn colProfit = new DataGridViewTextBoxColumn()
+            DataGridViewTextBoxColumn colWagered = new DataGridViewTextBoxColumn()
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
@@ -210,29 +215,51 @@ namespace WebBot.Controls
                 DataPropertyName = "BetAmount"
             };
 
-            dataGridView1.Columns.Add(colProfit);
+            dataGridView1.Columns.Add(colWagered);
 
             DataGridViewTextBoxColumn colBalance = new DataGridViewTextBoxColumn()
             {
                 CellTemplate = cell,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
-                Name = REWARD_COLUMN,
-                HeaderText = "Reward",
-                DataPropertyName = "Profit"
+                Name = BALANCE,
+                HeaderText = "Balance",
+                DataPropertyName = "Balance"
             };
 
             dataGridView1.Columns.Add(colBalance);
 
-            //DataGridViewTextBoxColumn colReason = new DataGridViewTextBoxColumn()
-            //{
-            //    CellTemplate = cell,
-            //    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-            //    Name = "Reason",
-            //    HeaderText = "Reason",
-            //    DataPropertyName = "Reason"
-            //};
+            DataGridViewTextBoxColumn colPossibleProfit = new DataGridViewTextBoxColumn()
+            {
+                CellTemplate = cell,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                Name = POSSIBLE_PROFIT,
+                HeaderText = "Payout",
+                DataPropertyName = "PossiblePayout"
+            };
 
-            //dataGridView1.Columns.Add(colReason);
+            dataGridView1.Columns.Add(colPossibleProfit);
+
+            DataGridViewTextBoxColumn colTotalWagered = new DataGridViewTextBoxColumn()
+            {
+                CellTemplate = cell,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                Name = TOTAL_WAGERED,
+                HeaderText = "TotalWagered",
+                DataPropertyName = "TotalWagered"
+            };
+
+            dataGridView1.Columns.Add(colTotalWagered);
+
+            DataGridViewTextBoxColumn colProfit = new DataGridViewTextBoxColumn()
+            {
+                CellTemplate = cell,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                Name = TOTAL_POSSIBLE_PROFIT,
+                HeaderText = "Profitable",
+                DataPropertyName = "PossibleProfit"
+            };
+
+            dataGridView1.Columns.Add(colProfit);
 
             betTask.QueueChanged += bustTask_QueueChanged;
 
@@ -253,8 +280,44 @@ namespace WebBot.Controls
                 dataGridView1.DataSource = tasks;
                 if (index >= 0)
                 {
-                    dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                    try
+                    {
+                        dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                    }
+                    catch (Exception) { }
                 }
+            }
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            DataGridView send = sender as DataGridView;
+
+            var Column = send.Columns[e.ColumnIndex];
+
+            switch (Column.Name)
+            {
+                case TOTAL_POSSIBLE_PROFIT:
+                    decimal test = (decimal)e.Value;
+                    if (test < 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                    else if (test > 0)
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                    }
+                    break;
+                case BALANCE:
+                    //var betCol = send.Columns[BET_COLUMN];
+                    decimal wagered = (decimal)send.Rows[e.RowIndex].Cells[WAGERED_COLUMN].Value;
+                    decimal balance = (decimal)e.Value;
+
+                    if (wagered > balance)
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                    break;
             }
         }
         #endregion

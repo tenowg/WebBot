@@ -53,7 +53,8 @@ namespace WebBot
             saveSettingsToolStripMenuItem.Click += button5_Click;
             loadSettingsToolStripMenuItem.Click += load_Click;
 
-            this.pRCDicehttpprcdiceeuToolStripMenuItem.Click += SiteMenu_Click;
+            pRCDicehttpprcdiceeuToolStripMenuItem.Click += SiteMenu_Click;
+            diceNinjahttpsdiceninjaToolStripMenuItem.Click += SiteMenu_Click;
             disabledToolTip.ShowAlways = true;
             
             splitContainer2.Panel2.MouseMove += Main_MouseMove;
@@ -95,6 +96,8 @@ namespace WebBot
                     }
                     break;
             }
+
+            settings.Save();
         }
 
         void flowLayoutPanel1_ControlAdded(object sender, ControlEventArgs e)
@@ -290,6 +293,9 @@ namespace WebBot
             {
                 case "prc":
                     Main.OnInitializeSite(new RPCDice(mainTabControl1.Browser));
+                    break;
+                case "diceninja":
+                    Main.OnInitializeSite(new DiceNinja(mainTabControl1.Browser));
                     break;
             }
         }

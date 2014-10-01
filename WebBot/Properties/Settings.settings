@@ -62,5 +62,11 @@
     <Setting Name="BaseChance" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">49.5</Value>
     </Setting>
+    <Setting Name="CurrentWagered" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AllTimeWagered" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

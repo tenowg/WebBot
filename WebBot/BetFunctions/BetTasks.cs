@@ -100,9 +100,10 @@ namespace WebBot.BetFunctions
                     // Unpause the bettings (Done)
                     _retries = 0;
                     return;
-                }
+                }    
             }
-
+            _retries = 0;
+            
             WinType type = Site.IsWin();
 
             switch (type)
@@ -120,28 +121,36 @@ namespace WebBot.BetFunctions
                     break;
             }
 
-            if (type != WinType.Initial)
+            if (type != WinType.Initial && Site.CurrentBets > 0)
             {
-                Site.LastResult = type; 
-                //settings.LastResult = type.ToString();
+                Site.LastResult = type;
+
+                var wagered = Site.CurrentWagered + Site.CurrentBet;
+                Site.CurrentWagered = wagered;
+
                 var profit = Site.Balance - Site.PreviousBalance;
                 Site.CurrentProfit += profit;
-                // At this point we should be ready to record data...
+
                 BetData data = new BetData()
                     {
+                        Balance = Site.Balance,
                         CurrentBetNum = Site.CurrentBets,
                         BetAmount = Site.CurrentBet,
                         Result = type,
                         Profit = profit, // TODO make this the currrent bets profit...
-                        TotalProfit = Site.CurrentProfit
+                        TotalProfit = Site.CurrentProfit,
+                        Chance = Site.CurrentChance,
+                        PossiblePayout = decimal.Round((99 / Site.CurrentChance) * Site.CurrentBet, 8),
+                        TotalWagered = Site.CurrentWagered,
+                        PossibleProfit = (decimal.Round((99 / Site.CurrentChance) * Site.CurrentBet, 8)) - Site.CurrentWagered 
                     };
 
                 Enqueue(data);
+                
+                ProcessBetActions();
             }
-
+            
             Site.IncrementStats(type);
-            ProcessBetActions();
-
             // TODO fix this to site
             Site.Roll(WebBot.Properties.Settings.Default.RollHigh);
         }
@@ -149,6 +158,12 @@ namespace WebBot.BetFunctions
         void _browser_DocumentCompleted(object sender, GeckoDocumentCompletedEventArgs e)
         {
             _browser.DocumentCompleted -= _browser_DocumentCompleted;
+            ResetPause();
+        }
+
+        async void ResetPause()
+        {
+            await Task.Delay(10000);
             _paused = false;
         }
 
@@ -188,6 +203,11 @@ namespace WebBot.BetFunctions
         }
 
         private void BetsReset(object sender, EventArgs args)
+        {
+            BetData = new ConcurrentQueue<BetData>();
+        }
+
+        public void BetsReset()
         {
             BetData = new ConcurrentQueue<BetData>();
         }

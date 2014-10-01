@@ -35,6 +35,8 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.buttonBustStop = new System.Windows.Forms.Button();
+            this.buttonBust = new System.Windows.Forms.Button();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -50,7 +52,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.buttonBust = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -128,6 +129,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.buttonBustStop);
             this.groupBox4.Controls.Add(this.buttonBust);
             this.groupBox4.Controls.Add(this.numericUpDown2);
             this.groupBox4.Controls.Add(this.radioButton2);
@@ -140,10 +142,34 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Bust Check Settings";
             // 
+            // buttonBustStop
+            // 
+            this.buttonBustStop.Location = new System.Drawing.Point(88, 85);
+            this.buttonBustStop.Name = "buttonBustStop";
+            this.buttonBustStop.Size = new System.Drawing.Size(75, 23);
+            this.buttonBustStop.TabIndex = 4;
+            this.buttonBustStop.Text = "Stop";
+            this.buttonBustStop.UseVisualStyleBackColor = true;
+            // 
+            // buttonBust
+            // 
+            this.buttonBust.Location = new System.Drawing.Point(7, 85);
+            this.buttonBust.Name = "buttonBust";
+            this.buttonBust.Size = new System.Drawing.Size(75, 23);
+            this.buttonBust.TabIndex = 3;
+            this.buttonBust.Text = "Start";
+            this.buttonBust.UseVisualStyleBackColor = true;
+            // 
             // numericUpDown2
             // 
+            this.numericUpDown2.DecimalPlaces = 8;
             this.numericUpDown2.Enabled = false;
             this.numericUpDown2.Location = new System.Drawing.Point(25, 60);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            1410065408,
+            2,
+            0,
+            0});
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown2.TabIndex = 2;
@@ -315,15 +341,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // buttonBust
-            // 
-            this.buttonBust.Location = new System.Drawing.Point(7, 85);
-            this.buttonBust.Name = "buttonBust";
-            this.buttonBust.Size = new System.Drawing.Size(75, 23);
-            this.buttonBust.TabIndex = 3;
-            this.buttonBust.Text = "Start";
-            this.buttonBust.UseVisualStyleBackColor = true;
-            // 
             // MainTabControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,10 +386,11 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
         public System.Windows.Forms.Button buttonBust;
+        public System.Windows.Forms.NumericUpDown numericUpDown2;
+        public System.Windows.Forms.Button buttonBustStop;
+        public System.Windows.Forms.RadioButton radioButton2;
+        public System.Windows.Forms.RadioButton radioButton1;
     }
 }

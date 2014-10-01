@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WebBot.BetActions.Enums;
 using WebBot.BetFunctions.Data;
 
@@ -41,12 +42,25 @@ namespace WebBot.BetFunctions.Sites
         public virtual long Wins { get { return Settings.Wins; } set { Settings.Wins = value; } }
         public virtual long AllTimeWins { get { return Settings.AllTimeWins; } set { Settings.AllTimeWins = value; } }
         public virtual bool PauseBet { get { return Settings.PauseBet; } set { Settings.PauseBet = value; } }
+        public virtual decimal CurrentChance { get { return Settings.CurrentChance; } set { Settings.CurrentChance = value; } }
+        public virtual decimal CurrentWagered { get { return Settings.CurrentWagered; } set { Settings.CurrentWagered = value; } }
+        public virtual decimal AllTimeWagered { get { return Settings.AllTimeWagered; } set { Settings.AllTimeWagered = value; } }
 
         public BaseSite(GeckoWebBrowser browser)
         {
             Settings = WebBot.Properties.Settings.Default;
             Browser = browser;
             BetStarting += BettingStart;
+
+            if (_browser != null)
+            {
+                _browser.Navigating += Browser_Navigating;
+            }
+        }
+
+        void Browser_Navigating(object sender, GeckoNavigatingEventArgs e)
+        {
+            //MessageBox.Show("Force Navigating...");
         }
 
         public abstract void SetElements();
@@ -64,7 +78,7 @@ namespace WebBot.BetFunctions.Sites
                 if (_previousBalanceValue == "" || _previousBalanceValue == null)
                 {
                     SetBet(Settings.MinimumBetAmount);
-                    Settings.CurrentChance = Settings.BaseChance;
+                    CurrentChance = Settings.BaseChance;
                     return WinType.Initial;
                 }
 

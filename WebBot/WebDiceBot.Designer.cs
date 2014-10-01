@@ -40,13 +40,18 @@ namespace WebBot
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.totalProfitLabel = new System.Windows.Forms.Label();
+            this.currentProfitLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.panel2 = new System.Windows.Forms.Panel();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -60,15 +65,12 @@ namespace WebBot
             this.buttonStartHigh = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.currentProfitLabel = new System.Windows.Forms.Label();
-            this.totalProfitLabel = new System.Windows.Forms.Label();
             this.mainTabControl1 = new WebBot.Controls.MainTabControl();
+            this.diceNinjahttpsdiceninjaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -84,7 +86,6 @@ namespace WebBot
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -131,7 +132,8 @@ namespace WebBot
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pRCDicehttpprcdiceeuToolStripMenuItem});
+            this.pRCDicehttpprcdiceeuToolStripMenuItem,
+            this.diceNinjahttpsdiceninjaToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.editToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
@@ -141,7 +143,7 @@ namespace WebBot
             // 
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Image = global::WebBot.Properties.Resources.logo2;
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Name = "pRCDicehttpprcdiceeuToolStripMenuItem";
-            this.pRCDicehttpprcdiceeuToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.pRCDicehttpprcdiceeuToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Tag = "prc";
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Text = "PRCDice (http://prcdice.eu)";
             // 
@@ -178,6 +180,64 @@ namespace WebBot
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1149, 44);
             this.panel1.TabIndex = 0;
+            // 
+            // totalProfitLabel
+            // 
+            this.totalProfitLabel.AutoSize = true;
+            this.totalProfitLabel.Location = new System.Drawing.Point(84, 24);
+            this.totalProfitLabel.Name = "totalProfitLabel";
+            this.totalProfitLabel.Size = new System.Drawing.Size(50, 13);
+            this.totalProfitLabel.TabIndex = 13;
+            this.totalProfitLabel.Text = "loading...";
+            // 
+            // currentProfitLabel
+            // 
+            this.currentProfitLabel.AutoSize = true;
+            this.currentProfitLabel.Location = new System.Drawing.Point(84, 3);
+            this.currentProfitLabel.Name = "currentProfitLabel";
+            this.currentProfitLabel.Size = new System.Drawing.Size(50, 13);
+            this.currentProfitLabel.TabIndex = 12;
+            this.currentProfitLabel.Text = "loading...";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Total Profit:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Current Profit:";
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.checkBox2);
+            this.panel4.Location = new System.Drawing.Point(707, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(96, 34);
+            this.panel4.TabIndex = 9;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = global::WebBot.Properties.Settings.Default.PauseBet;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::WebBot.Properties.Settings.Default, "PauseBet", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Location = new System.Drawing.Point(3, 9);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBox2.Size = new System.Drawing.Size(87, 17);
+            this.checkBox2.TabIndex = 5;
+            this.checkBox2.Text = "Manual Click";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // panel3
             // 
@@ -259,19 +319,6 @@ namespace WebBot
             this.label1.TabIndex = 1;
             this.label1.Text = "Base Bet";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = global::WebBot.Properties.Settings.Default.PauseBet;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::WebBot.Properties.Settings.Default, "PauseBet", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(3, 9);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBox2.Size = new System.Drawing.Size(87, 17);
-            this.checkBox2.TabIndex = 5;
-            this.checkBox2.Text = "Manual Click";
-            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
@@ -440,51 +487,6 @@ namespace WebBot
             this.propertyGrid1.Size = new System.Drawing.Size(308, 239);
             this.propertyGrid1.TabIndex = 0;
             // 
-            // panel4
-            // 
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.checkBox2);
-            this.panel4.Location = new System.Drawing.Point(707, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(96, 34);
-            this.panel4.TabIndex = 9;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Current Profit:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 24);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Total Profit:";
-            // 
-            // currentProfitLabel
-            // 
-            this.currentProfitLabel.AutoSize = true;
-            this.currentProfitLabel.Location = new System.Drawing.Point(84, 3);
-            this.currentProfitLabel.Name = "currentProfitLabel";
-            this.currentProfitLabel.Size = new System.Drawing.Size(50, 13);
-            this.currentProfitLabel.TabIndex = 12;
-            this.currentProfitLabel.Text = "loading...";
-            // 
-            // totalProfitLabel
-            // 
-            this.totalProfitLabel.AutoSize = true;
-            this.totalProfitLabel.Location = new System.Drawing.Point(84, 24);
-            this.totalProfitLabel.Name = "totalProfitLabel";
-            this.totalProfitLabel.Size = new System.Drawing.Size(50, 13);
-            this.totalProfitLabel.TabIndex = 13;
-            this.totalProfitLabel.Text = "loading...";
-            // 
             // mainTabControl1
             // 
             this.mainTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -492,6 +494,14 @@ namespace WebBot
             this.mainTabControl1.Name = "mainTabControl1";
             this.mainTabControl1.Size = new System.Drawing.Size(829, 524);
             this.mainTabControl1.TabIndex = 2;
+            // 
+            // diceNinjahttpsdiceninjaToolStripMenuItem
+            // 
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Image = global::WebBot.Properties.Resources.dn_logo;
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Name = "diceNinjahttpsdiceninjaToolStripMenuItem";
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Tag = "diceninja";
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Text = "Dice Ninja (https://dice.ninja)";
             // 
             // Main
             // 
@@ -512,6 +522,8 @@ namespace WebBot
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -531,8 +543,6 @@ namespace WebBot
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -576,6 +586,7 @@ namespace WebBot
         private Label label4;
         private Label label3;
         private Panel panel4;
+        private ToolStripMenuItem diceNinjahttpsdiceninjaToolStripMenuItem;
     }
 }
 

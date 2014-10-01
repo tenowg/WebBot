@@ -10,9 +10,9 @@ using WebBot.BetFunctions.Data;
 
 namespace WebBot.BetFunctions.Sites
 {
-    public class RPCDice : BaseSite
+    public class DiceNinja : BaseSite
     {
-        public override decimal Balance { get { return decimal.Parse(BalanceNode.TextContent.Substring(0, BalanceNode.TextContent.LastIndexOf(" "))); } }
+        public override decimal Balance { get { return decimal.Parse(BalanceNode.TextContent); } }//.Substring(0, BalanceNode.TextContent.LastIndexOf(" "))); } }
         public override decimal PreviousBalance
         {
             get
@@ -21,16 +21,16 @@ namespace WebBot.BetFunctions.Sites
                 {
                     return 0;
                 }
-                return decimal.Parse(_previousBalanceValue.Substring(0, _previousBalanceValue.LastIndexOf(" ")));
+                return decimal.Parse(_previousBalanceValue); //.Substring(0, _previousBalanceValue.LastIndexOf(" ")));
             }
         }
 
         public GeckoInputElement Chance { get; set; }
         public GeckoInputElement BetValue { get; set; }
-        public GeckoInputElement Payout { get; set; }
-        public GeckoAnchorElement BetHigh { get; set; }
-        public GeckoAnchorElement BetLow { get; set; }
-        public GeckoHtmlElement BalanceNode { get; set; }
+        public GeckoHtmlElement Payout { get; set; }
+        public GeckoDivElement BetHigh { get; set; }
+        public GeckoDivElement BetLow { get; set; }
+        public GeckoDivElement BalanceNode { get; set; }
 
         // Login
         public GeckoLinkElement LoginButton { get; set; }
@@ -38,9 +38,9 @@ namespace WebBot.BetFunctions.Sites
         public GeckoInputElement Password { get; set; }
         public GeckoInputElement SignIn { get; set; }
 
-        public RPCDice(GeckoWebBrowser browser) : base(browser)
+        public DiceNinja(GeckoWebBrowser browser) : base(browser)
         {
-            Url = "http://prcdice.eu";
+            Url = "https://dice.ninja";
         }
 
         public override void SetElements()
@@ -48,12 +48,12 @@ namespace WebBot.BetFunctions.Sites
             try
             {
                 GeckoDocument document = _browser.Document;
-                Chance = document.GetElementById("diceChance") as GeckoInputElement;
-                BetValue = document.GetElementById("diceBetAmount") as GeckoInputElement;
-                Payout = document.GetElementById("dicePayout") as GeckoInputElement;
-                BetHigh = document.GetElementsByClassName("diceHighButton")[0] as GeckoAnchorElement;
-                BetLow = document.GetElementsByClassName("diceLoButton")[0] as GeckoAnchorElement;
-                BalanceNode = document.GetElementsByClassName("myBalance")[0] as GeckoHtmlElement;
+                Chance = document.GetElementById("win_chance") as GeckoInputElement;
+                BetValue = document.GetElementById("bet") as GeckoInputElement;
+                Payout = document.GetElementById("payout") as GeckoHtmlElement;
+                BetHigh = document.GetElementsByName(">")[0] as GeckoDivElement;
+                BetLow = document.GetElementsByName("<")[0] as GeckoDivElement;
+                BalanceNode = document.GetElementsByClassName("mybalance")[0] as GeckoDivElement;
             }
             catch (Exception)
             {

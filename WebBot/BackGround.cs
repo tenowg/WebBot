@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using WebBot.BetActions.Enums;
 using WebBot.BetFunctions;
 using WebBot.BetFunctions.Sites;
@@ -46,6 +47,7 @@ namespace WebBot
             buttonStop.Click += Stop_Click;
 
             mainTabControl1.buttonBust.Click += StartBust_Click;
+            mainTabControl1.buttonBustStop.Click += StopBust_Click;
 
             tasks = new BetTasks(this, mainTabControl1.Browser);
             mainTabControl1.BindStatisticsGrid(tasks);
@@ -151,6 +153,7 @@ namespace WebBot
 
         void StartHigh_Click(object sender, EventArgs e)
         {
+            WebBot.Properties.Settings.Default.RollHigh = true;
             if (!worker.IsBusy)
             {
                 worker.RunWorkerAsync();
@@ -159,6 +162,7 @@ namespace WebBot
 
         void StartLow_Click(object sender, EventArgs e)
         {
+            WebBot.Properties.Settings.Default.RollHigh = false;
             if (!worker.IsBusy)
             {
                 worker.RunWorkerAsync();
@@ -235,10 +239,22 @@ namespace WebBot
         
         void Bust_DoWork(object sender, DoWorkEventArgs e)
         {
-            nullSite.SetBalance(1.0m);
+            BackgroundWorker sendWorker = sender as BackgroundWorker;
+            this.Invoke(new Action(() =>
+                {
+                    if (mainTabControl1.radioButton2.Checked)
+                    {
+                        nullSite.SetBalance(mainTabControl1.numericUpDown2.Value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("This option is not Implemented Yet");
+                        sendWorker.CancelAsync();
+                    }
+                }));
             int overCount = 0;
             // While loop, till balance is -(+count roll)
-            while (nullSite.Balance > 0 || overCount < 10)
+            while ((nullSite.Balance > 0 || overCount < 10) && !sendWorker.CancellationPending)
             {
                 this.BeginInvoke(new Action(() =>
                 {
@@ -249,7 +265,7 @@ namespace WebBot
 
                 
                     bustTasks.ProcessBet();
-                    nullSite.SetBalance(nullSite.Balance - .2m);
+                    //nullSite.SetBalance(nullSite.Balance - .2m);
                 }));
 
                 Thread.Sleep(50);
@@ -261,8 +277,18 @@ namespace WebBot
             
             if (!bustWorker.IsBusy)
             {
+                bustTasks.BetsReset();
                 bustTasks.Site = nullSite;
+                nullSite.Initialize();
                 bustWorker.RunWorkerAsync();
+            }
+        }
+        
+        void StopBust_Click(object sender, EventArgs e)
+        {
+            if (bustWorker.WorkerSupportsCancellation)
+            {
+                bustWorker.CancelAsync();
             }
         }
 

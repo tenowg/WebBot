@@ -12,9 +12,15 @@ namespace WebBot.BetFunctions.Data
     {
         public long CurrentBetNum { get; set; }
         public decimal BetAmount { get; set; }
+        public decimal Chance { get; set; }
+        public decimal Multiplier { get; set; }
+        public decimal PossiblePayout { get; set; }
+        public decimal TotalWagered { get; set; }
         public WinType Result { get; set; }
         public decimal Profit { get; set; }
         public decimal TotalProfit { get; set; }
         public string Message { get; set; }
+        public decimal Balance { get; set; }
+        public decimal PossibleProfit { get; set; }
     }
 }

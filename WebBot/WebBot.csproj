@@ -112,6 +112,7 @@
     <Compile Include="BetFunctions\Data\BetData.cs" />
     <Compile Include="BetFunctions\Sites\BaseSite.cs" />
     <Compile Include="BetFunctions\Sites\NullSite.cs" />
+    <Compile Include="BetFunctions\Sites\DiceNinja.cs" />
     <Compile Include="Controls\BetAction.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -224,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Red-Money-Dice-psd88716.ico" />
+    <None Include="Resources\dn_logo.png" />
     <Content Include="Strategies\9.9%28multi 1.125%29 10x Martingale.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -262,5 +262,29 @@ namespace WebBot.Properties {
                 this["BaseChance"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal CurrentWagered {
+            get {
+                return ((decimal)(this["CurrentWagered"]));
+            }
+            set {
+                this["CurrentWagered"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal AllTimeWagered {
+            get {
+                return ((decimal)(this["AllTimeWagered"]));
+            }
+            set {
+                this["AllTimeWagered"] = value;
+            }
+        }
     }
 }
