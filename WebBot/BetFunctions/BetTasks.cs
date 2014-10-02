@@ -145,6 +145,18 @@ namespace WebBot.BetFunctions
                         PossibleProfit = (decimal.Round((99 / Site.CurrentChance) * Site.CurrentBet, 8)) - Site.CurrentWagered 
                     };
 
+                Site.AllTimeProfit += profit;
+                Site.AllTimeBets++;
+                Site.AllTimeWagered += wagered;
+                if (type == WinType.Win)
+                {
+                    Site.AllTimeWins++;
+                }
+                else if (type == WinType.Lose)
+                {
+                    Site.AllTimeLoses++;
+                }
+
                 Enqueue(data);
                 
                 ProcessBetActions();

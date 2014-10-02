@@ -12,10 +12,10 @@ namespace WebBot.BetActions.Actions
 {
     public class ChangeChanceAction : CActionType
     {
-        private Properties.Settings _settings;
+        //private Properties.Settings _settings;
         public ChangeChanceAction() : base()
         {
-            _settings = WebBot.Properties.Settings.Default;
+            //_settings = WebBot.Properties.Settings.Default;
             Properties.AddProperty(PROFIT_TYPE, ProfitType.Always, "Determines what type of profit this action is waiting for (If just checking for Bet/Win/Lose set to always)");
             Properties.AddProperty(AMOUNT, 0m, "The profit this action is looking for (abs values, based on ProfitType)");
             Properties.AddProperty(PERCENT_OR_FIXED, PercentOrFixed.Fixed, "The type of change to apply");
@@ -41,19 +41,19 @@ namespace WebBot.BetActions.Actions
                     break;
                 case ProfitType.EqualTo:
                     // Probably not ever going to fire do to exact numbers will likely never happen here.
-                    if (_settings.CurrentProfit != amount)
+                    if (site.CurrentProfit != amount)
                     {
                         return;
                     }
                     break;
                 case ProfitType.Loss:
-                    if (Math.Abs(_settings.CurrentProfit) < amount)
+                    if (Math.Abs(site.CurrentProfit) < amount)
                     {
                         return;
                     }
                     break;
                 case ProfitType.Profit:
-                    if (Math.Abs(_settings.CurrentProfit) < amount)
+                    if (Math.Abs(site.CurrentProfit) < amount)
                     {
                         return;
                     }
@@ -68,19 +68,22 @@ namespace WebBot.BetActions.Actions
 
             switch (percentType)
             {
+                case PercentOrFixed.Exactly:
+                    site.CurrentChance = changeAmount;
+                    break;
                 case PercentOrFixed.Fixed:
-                    _settings.CurrentChance += changeAmount;
+                    site.CurrentChance += changeAmount;
                     break;
                 case PercentOrFixed.Percent:
                     decimal percent = amount / 100;
-                    _settings.CurrentChance *= percent;
+                    site.CurrentChance *= percent;
                     break;
                 case PercentOrFixed.Reset:
-                    _settings.CurrentChance = _settings.BaseChance;
+                    site.CurrentChance = site.BaseChance;
                     break;
                 case PercentOrFixed.Multiply:
                     //site.SetBet(_settings.CurrentBetAmount * amount);
-                    _settings.CurrentChance *= amount;
+                    site.CurrentChance *= amount;
                     break;
             }
 

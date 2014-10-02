@@ -17,6 +17,8 @@ namespace WebBot.BetActions.Enums
         [EnumMember]
         Reset,
         [EnumMember]
-        Multiply
+        Multiply,
+        [EnumMember]
+        Exactly
     }
 }

@@ -37,6 +37,7 @@ namespace WebBot
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pRCDicehttpprcdiceeuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.diceNinjahttpsdiceninjaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -66,7 +67,12 @@ namespace WebBot
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.mainTabControl1 = new WebBot.Controls.MainTabControl();
-            this.diceNinjahttpsdiceninjaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -147,6 +153,14 @@ namespace WebBot
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Tag = "prc";
             this.pRCDicehttpprcdiceeuToolStripMenuItem.Text = "PRCDice (http://prcdice.eu)";
             // 
+            // diceNinjahttpsdiceninjaToolStripMenuItem
+            // 
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Image = global::WebBot.Properties.Resources.dn_logo;
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Name = "diceNinjahttpsdiceninjaToolStripMenuItem";
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Tag = "diceninja";
+            this.diceNinjahttpsdiceninjaToolStripMenuItem.Text = "Dice Ninja (https://dice.ninja)";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -168,6 +182,12 @@ namespace WebBot
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tableLayoutPanel1.SetColumnSpan(this.panel1, 3);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.totalProfitLabel);
             this.panel1.Controls.Add(this.currentProfitLabel);
             this.panel1.Controls.Add(this.label4);
@@ -219,6 +239,7 @@ namespace WebBot
             // 
             // panel4
             // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.checkBox2);
             this.panel4.Location = new System.Drawing.Point(707, 3);
@@ -241,6 +262,7 @@ namespace WebBot
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.numericUpDown2);
@@ -285,6 +307,7 @@ namespace WebBot
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.numericUpDown1);
             this.panel2.Controls.Add(this.label1);
@@ -495,13 +518,59 @@ namespace WebBot
             this.mainTabControl1.Size = new System.Drawing.Size(829, 524);
             this.mainTabControl1.TabIndex = 2;
             // 
-            // diceNinjahttpsdiceninjaToolStripMenuItem
+            // label5
             // 
-            this.diceNinjahttpsdiceninjaToolStripMenuItem.Image = global::WebBot.Properties.Resources.dn_logo;
-            this.diceNinjahttpsdiceninjaToolStripMenuItem.Name = "diceNinjahttpsdiceninjaToolStripMenuItem";
-            this.diceNinjahttpsdiceninjaToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.diceNinjahttpsdiceninjaToolStripMenuItem.Tag = "diceninja";
-            this.diceNinjahttpsdiceninjaToolStripMenuItem.Text = "Dice Ninja (https://dice.ninja)";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(196, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Number Bets:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(189, 24);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(78, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Current Streak:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(273, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "loading";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(273, 24);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 13);
+            this.label8.TabIndex = 17;
+            this.label8.Text = "loading";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(344, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(34, 13);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Wins:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(340, 24);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(38, 13);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Loses:";
             // 
             // Main
             // 
@@ -587,6 +656,12 @@ namespace WebBot
         private Label label3;
         private Panel panel4;
         private ToolStripMenuItem diceNinjahttpsdiceninjaToolStripMenuItem;
+        private Label label10;
+        private Label label9;
+        private Label label8;
+        private Label label7;
+        private Label label6;
+        private Label label5;
     }
 }
 

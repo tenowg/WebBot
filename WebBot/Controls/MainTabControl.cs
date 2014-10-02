@@ -29,6 +29,8 @@ namespace WebBot.Controls
             {
                 Dock = DockStyle.Fill,
             };
+
+            
         }
 
         protected override void OnLoad(EventArgs e)

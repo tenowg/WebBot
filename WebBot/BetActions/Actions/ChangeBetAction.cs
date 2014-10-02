@@ -51,5 +51,33 @@ namespace WebBot.BetActions.Actions
             }
             
         }
+
+        public override string GetDescription()
+        {
+            PercentOrFixed type;
+            Properties.GetProperty(PERCENT_OR_FIXED, out type);
+
+            decimal amount;
+            Properties.GetProperty(AMOUNT, out amount);
+
+            // Always (Will Always stop betting when executed)
+            // EqualTo (Will stop the betting if profit/loss is {0} {1})
+            // Others (Will stop the betting if there is a {0} of {1})
+            switch (type)
+            {
+                case PercentOrFixed.Exactly:
+                    return string.Format("Chance will change to {0} exactly.", amount);
+                case PercentOrFixed.Fixed:
+                    return string.Format("Will change bet chance by {0} (addition/substraction)", amount);
+                case PercentOrFixed.Multiply:
+                    return string.Format("Will multiply bet chance by {0} (not percentage)", amount);
+                case PercentOrFixed.Percent:
+                    return string.Format("Will multiply bet chance by {0}% (as a percentage)", amount);
+                case PercentOrFixed.Reset:
+                    return "Reset the Bet back to Base bet.";
+            }
+
+            return base.GetDescription();
+        }
     }
 }

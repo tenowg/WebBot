@@ -30,8 +30,6 @@ namespace WebBot.BetActions.Actions
 
         public override void Execute(BaseSite site)
         {
-            var _settings = WebBot.Properties.Settings.Default;
-
             ProfitType type;
             Properties.GetProperty(PROFIT_TYPE, out type);
 
@@ -44,18 +42,18 @@ namespace WebBot.BetActions.Actions
                     break;
                 case ProfitType.EqualTo:
                     // Probably not ever going to fire do to exact numbers will likely never happen here.
-                    if (_settings.CurrentProfit != amount) {
+                    if (site.CurrentProfit != amount) {
                         return;
                     }
                     break;
                 case ProfitType.Loss:
-                    if (Math.Abs(_settings.CurrentProfit) < amount) 
+                    if (Math.Abs(site.CurrentProfit) < amount) 
                     {
                         return;
                     }
                     break;
                 case ProfitType.Profit:
-                    if (Math.Abs(_settings.CurrentProfit) < amount)
+                    if (Math.Abs(site.CurrentProfit) < amount)
                     {
                         return;
                     }

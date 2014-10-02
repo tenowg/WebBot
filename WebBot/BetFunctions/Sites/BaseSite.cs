@@ -35,6 +35,7 @@ namespace WebBot.BetFunctions.Sites
         public virtual long TotalBets { get { return Settings.TotalBets; } set { Settings.TotalBets = value; } }
         public virtual int CurrentStreak { get { return Settings.CurrentStreak; } set { Settings.CurrentStreak = value; } }
         public virtual decimal CurrentProfit { get { return Settings.CurrentProfit; } set { Settings.CurrentProfit = value; } }
+        public virtual decimal AllTimeProfit { get { return Settings.AllTimeProfit; } set { Settings.AllTimeProfit = value; } }
         public virtual decimal BaseBet { get { return Settings.MinimumBetAmount; } }
         public virtual WinType LastResult { get { return (WinType)Enum.Parse(typeof(WinType), Settings.LastResult); } set { Settings.LastResult = value.ToString(); } }
         public virtual long Loses { get { return Settings.Loses; } set { Settings.Loses = value; } }
@@ -43,6 +44,7 @@ namespace WebBot.BetFunctions.Sites
         public virtual long AllTimeWins { get { return Settings.AllTimeWins; } set { Settings.AllTimeWins = value; } }
         public virtual bool PauseBet { get { return Settings.PauseBet; } set { Settings.PauseBet = value; } }
         public virtual decimal CurrentChance { get { return Settings.CurrentChance; } set { Settings.CurrentChance = value; } }
+        public virtual decimal BaseChance { get { return Settings.BaseChance; } set { Settings.BaseChance = value; } }
         public virtual decimal CurrentWagered { get { return Settings.CurrentWagered; } set { Settings.CurrentWagered = value; } }
         public virtual decimal AllTimeWagered { get { return Settings.AllTimeWagered; } set { Settings.AllTimeWagered = value; } }
 

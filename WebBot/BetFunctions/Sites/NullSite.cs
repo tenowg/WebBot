@@ -17,6 +17,7 @@ namespace WebBot.BetFunctions.Sites
         public override long TotalBets { get; set; }
         public override int CurrentStreak { get; set; }
         public override decimal CurrentProfit { get; set; }
+        public override decimal AllTimeProfit { get; set; }
         public override decimal BaseBet { get { return Settings.MinimumBetAmount; } }
         public override WinType LastResult { get; set; }
         public override long Loses { get; set; }
@@ -25,6 +26,7 @@ namespace WebBot.BetFunctions.Sites
         public override long AllTimeWins { get; set; }
         public override bool PauseBet { get; set; }
         public override decimal CurrentChance { get; set; }
+        public override decimal BaseChance { get; set; }
         public override decimal CurrentWagered { get; set; }
         public override decimal AllTimeWagered { get; set; }
 
